@@ -5,6 +5,7 @@ import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { LeaderboardEntry } from "@/lib/types";
+import FlappyBackground from "./FlappyBackground";
 
 const SETTINGS_KEY = "chaosbird.leaderboard.settings";
 const TOP_N = 10;
@@ -109,6 +110,7 @@ export default function Leaderboard() {
 
   return (
     <main style={shell}>
+      <FlappyBackground />
       <header style={topBar}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <Image src="/litmus-bird.png" alt="LitmusChaos" width={48} height={48} />
@@ -183,16 +185,16 @@ export default function Leaderboard() {
 
         <aside className="card" style={qrPanel}>
           <span className="pill">Scan to play</span>
-          <div style={{ background: "#fff", padding: 16, borderRadius: 18, marginTop: 8 }}>
+          <div style={{ background: "#fff", padding: 25, borderRadius: 18, marginTop: 8 }}>
             {hydrated && settings.qrUrl ? (
-              <QRCodeSVG value={settings.qrUrl} size={208} bgColor="#ffffff" fgColor="#3a2a82" level="M" />
+              <QRCodeSVG value={settings.qrUrl} size={500} bgColor="#ffffff" fgColor="#3a2a82" level="M" />
             ) : (
-              <div style={{ width: 208, height: 208 }} />
+              <div style={{ width: 300, height: 300 }} />
             )}
           </div>
           <p style={{ marginTop: 14, fontWeight: 700 }}>Top score wins swag!</p>
           <p style={{ color: "var(--text-dim)", fontSize: "0.82rem", marginTop: 4, textAlign: "center" }}>
-            Flap the Chaos Bird through the cluster. One entry per email.
+            Flap the Chaos Bird through the cluster. One entry per LinkedIn ID.
           </p>
         </aside>
       </div>
@@ -248,9 +250,7 @@ export default function Leaderboard() {
 }
 
 function medal(rank: number) {
-  if (rank === 1) return "🥇";
-  if (rank === 2) return "🥈";
-  if (rank === 3) return "🥉";
+  if (rank <= 3) return `#${rank}`;
   return rank;
 }
 
@@ -259,6 +259,8 @@ const shell: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   padding: "1.25rem 1.5rem 1.5rem",
+  position: "relative",
+  zIndex: 1,
 };
 
 const topBar: React.CSSProperties = {
@@ -308,12 +310,16 @@ function rowStyle(rank: number): React.CSSProperties {
 }
 
 function medalStyle(rank: number): React.CSSProperties {
+  const rankColor =
+    rank === 1 ? "var(--gold)" : rank === 2 ? "var(--silver)" : rank === 3 ? "var(--bronze)" : "var(--text-dim)";
   return {
-    width: 40,
+    width: rank <= 3 ? 56 : 40,
+    flexShrink: 0,
     textAlign: "center",
-    fontSize: rank <= 3 ? "1.5rem" : "1rem",
-    fontWeight: 800,
-    color: "var(--text-dim)",
+    fontSize: rank <= 3 ? "2rem" : "1rem",
+    fontWeight: 900,
+    letterSpacing: "-0.02em",
+    color: rankColor,
   };
 }
 
