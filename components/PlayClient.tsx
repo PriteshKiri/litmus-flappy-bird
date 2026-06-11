@@ -219,7 +219,7 @@ export default function PlayClient() {
                 Winner announced at 4:04 PM
               </span>
               <span style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>
-                Keep trying until then — top the leaderboard at that moment to win.
+                Keep trying until then!!
               </span>
             </div>
             {submitError && <p style={errorText}>{submitError}</p>}
