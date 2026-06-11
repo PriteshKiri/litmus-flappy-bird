@@ -113,7 +113,7 @@ export default function Leaderboard() {
       <FlappyBackground />
       <header style={topBar}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Image src="/litmus-bird.png" alt="LitmusChaos" width={48} height={48} />
+          <Image src="/litmus-logo.png" alt="LitmusChaos" width={38} height={48} />
           <div>
             <h1 style={{ fontSize: "1.5rem", lineHeight: 1 }}>Chaos Bird Leaderboard</h1>
             <span style={{ color: "var(--text-dim)", fontSize: "0.8rem" }}>
@@ -185,6 +185,17 @@ export default function Leaderboard() {
 
         <aside className="card" style={qrPanel}>
           <span className="pill">Scan to play</span>
+          <div style={announceBanner}>
+            <span style={{ fontSize: "0.68rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-dim)" }}>
+              Winner announced
+            </span>
+            <span style={{ fontSize: "1.35rem", fontWeight: 800, lineHeight: 1.1, color: "var(--gold)" }}>
+              Sharp at 4:04 PM
+            </span>
+            <span style={{ fontSize: "0.76rem", color: "var(--text-dim)" }}>
+              Top the leaderboard at that moment to win
+            </span>
+          </div>
           <div style={{ background: "#fff", padding: 25, borderRadius: 18, marginTop: 8 }}>
             {hydrated && settings.qrUrl ? (
               <QRCodeSVG value={settings.qrUrl} size={500} bgColor="#ffffff" fgColor="#3a2a82" level="M" />
@@ -279,6 +290,21 @@ const qrPanel: React.CSSProperties = {
   justifyContent: "center",
   padding: "1.5rem",
   textAlign: "center",
+};
+
+const announceBanner: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 3,
+  marginTop: 12,
+  marginBottom: 4,
+  padding: "0.8rem 1rem",
+  borderRadius: 14,
+  width: "87%",
+  textAlign: "center",
+  background: "rgba(255,210,74,0.06)",
+  border: "1px solid rgba(255,210,74,0.28)",
 };
 
 const emptyState: React.CSSProperties = {

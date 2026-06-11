@@ -214,6 +214,14 @@ export default function PlayClient() {
             <div style={{ fontSize: "3.6rem", fontWeight: 800, lineHeight: 1, margin: "0.2rem 0 1.2rem" }}>
               {score}
             </div>
+            <div style={announceCallout}>
+              <span style={{ fontSize: "0.98rem", fontWeight: 800, color: "var(--gold)" }}>
+                Winner announced at 4:04 PM
+              </span>
+              <span style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>
+                Keep trying until then — top the leaderboard at that moment to win.
+              </span>
+            </div>
             {submitError && <p style={errorText}>{submitError}</p>}
             <div style={{ display: "flex", flexDirection: "column", gap: "0.7rem" }}>
               <button className="btn btn-primary" onClick={submitScore} disabled={submitting}>
@@ -366,4 +374,15 @@ const noteText: React.CSSProperties = {
   fontSize: "0.76rem",
   textAlign: "center",
   maxWidth: 360,
+};
+
+const announceCallout: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: 3,
+  padding: "0.8rem 1rem",
+  borderRadius: 12,
+  marginBottom: "1rem",
+  background: "rgba(255,210,74,0.06)",
+  border: "1px solid rgba(255,210,74,0.28)",
 };
