@@ -5,7 +5,8 @@ export interface ScoreRow {
   name: string;
   linkedin: string;
   company: string | null;
-  cncf_project: string | null;
+  litmus_usage_team: string | null;
+  wants_adopters_list: boolean;
   litmus_relation: LitmusRelation;
   wants_community: boolean;
   email: string | null;
@@ -17,7 +18,8 @@ export interface PlayerInfo {
   name: string;
   linkedin: string;
   company: string;
-  cncfProject: string;
+  litmusUsageTeam: string;
+  wantsAdoptersList: boolean;
   litmusRelation: LitmusRelation | "";
   wantsCommunity: boolean;
   email: string;

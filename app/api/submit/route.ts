@@ -36,7 +36,8 @@ export async function POST(request: Request) {
   const name = str(body.name);
   const linkedinRaw = str(body.linkedin);
   const company = str(body.company);
-  const cncfProject = str(body.cncfProject);
+  const litmusUsageTeam = str(body.litmusUsageTeam);
+  const wantsAdoptersList = body.wantsAdoptersList === true;
   const litmusRelation = str(body.litmusRelation) as LitmusRelation;
   const wantsCommunity = body.wantsCommunity === true;
   const email = str(body.email).toLowerCase();
@@ -61,11 +62,23 @@ export async function POST(request: Request) {
     );
   }
 
+  if (company.length > 120 || litmusUsageTeam.length > 120) {
+    return NextResponse.json({ ok: false, error: "End-user details are too long." }, { status: 400 });
+  }
+
   if (wantsCommunity && !EMAIL_RE.test(email)) {
     return NextResponse.json(
       { ok: false, error: "Please enter a valid email to join the community calls." },
       { status: 400 },
     );
+  }
+
+  if (litmusRelation === "end_user" && !company) {
+    return NextResponse.json({ ok: false, error: "Please enter your organization name." }, { status: 400 });
+  }
+
+  if (litmusRelation === "end_user" && !litmusUsageTeam) {
+    return NextResponse.json({ ok: false, error: "Please enter the team using LitmusChaos." }, { status: 400 });
   }
 
   if (!Number.isFinite(score) || score < 0) {
@@ -93,8 +106,9 @@ export async function POST(request: Request) {
   const { error } = await supabase.from("scores").insert({
     name,
     linkedin,
-    company: company || null,
-    cncf_project: cncfProject || null,
+    company: litmusRelation === "end_user" ? company : null,
+    litmus_usage_team: litmusRelation === "end_user" ? litmusUsageTeam : null,
+    wants_adopters_list: litmusRelation === "end_user" ? wantsAdoptersList : false,
     litmus_relation: litmusRelation,
     wants_community: wantsCommunity,
     email: wantsCommunity && email ? email : null,

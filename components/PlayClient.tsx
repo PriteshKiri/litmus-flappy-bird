@@ -17,8 +17,8 @@ export default function PlayClient() {
   const [name, setName] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [company, setCompany] = useState("");
-  const [cncfContributed, setCncfContributed] = useState(false);
-  const [cncfProject, setCncfProject] = useState("");
+  const [litmusUsageTeam, setLitmusUsageTeam] = useState("");
+  const [wantsAdoptersList, setWantsAdoptersList] = useState(false);
   const [relation, setRelation] = useState<LitmusRelation | "">("");
   const [wantsCommunity, setWantsCommunity] = useState(false);
   const [email, setEmail] = useState("");
@@ -36,8 +36,10 @@ export default function PlayClient() {
     if (!name.trim()) return setFormError("Please enter your name.");
     if (linkedin.trim().length < 3) return setFormError("Please enter your LinkedIn profile.");
     if (!relation) return setFormError("Please select your relationship to LitmusChaos.");
-    if (cncfContributed && !cncfProject.trim())
-      return setFormError("Please name the CNCF project you contributed to.");
+    if (relation === "end_user" && !company.trim())
+      return setFormError("Please enter your organization name.");
+    if (relation === "end_user" && !litmusUsageTeam.trim())
+      return setFormError("Please enter the team using LitmusChaos.");
     if (wantsCommunity && !EMAIL_RE.test(email.trim()))
       return setFormError("Please enter a valid email to join the community calls.");
     setRunKey((k) => k + 1);
@@ -65,8 +67,9 @@ export default function PlayClient() {
         body: JSON.stringify({
           name: name.trim(),
           linkedin: linkedin.trim(),
-          company: company.trim(),
-          cncfProject: cncfContributed ? cncfProject.trim() : "",
+          company: relation === "end_user" ? company.trim() : "",
+          litmusUsageTeam: relation === "end_user" ? litmusUsageTeam.trim() : "",
+          wantsAdoptersList: relation === "end_user" ? wantsAdoptersList : false,
           litmusRelation: relation,
           wantsCommunity,
           email: wantsCommunity ? email.trim() : "",
@@ -127,16 +130,6 @@ export default function PlayClient() {
                 />
               </Field>
 
-              <Field label="Company / organization">
-                <input
-                  type="text"
-                  placeholder="Where do you work?"
-                  value={company}
-                  maxLength={120}
-                  onChange={(e) => setCompany(e.target.value)}
-                />
-              </Field>
-
               <Field label="Relationship to LitmusChaos *">
                 <select value={relation} onChange={(e) => setRelation(e.target.value as LitmusRelation)}>
                   <option value="">Select one…</option>
@@ -146,22 +139,35 @@ export default function PlayClient() {
                 </select>
               </Field>
 
-              <label style={toggleRow}>
-                <input
-                  type="checkbox"
-                  checked={cncfContributed}
-                  onChange={(e) => setCncfContributed(e.target.checked)}
-                />
-                <span>I&apos;ve contributed to a CNCF project</span>
-              </label>
-              {cncfContributed && (
-                <input
-                  type="text"
-                  placeholder="Which CNCF project?"
-                  value={cncfProject}
-                  maxLength={120}
-                  onChange={(e) => setCncfProject(e.target.value)}
-                />
+              {relation === "end_user" && (
+                <>
+                  <Field label="Organization name *">
+                    <input
+                      type="text"
+                      placeholder="Your organization"
+                      value={company}
+                      maxLength={120}
+                      onChange={(e) => setCompany(e.target.value)}
+                    />
+                  </Field>
+                  <Field label="Team using LitmusChaos *">
+                    <input
+                      type="text"
+                      placeholder="Platform, SRE, DevOps, etc."
+                      value={litmusUsageTeam}
+                      maxLength={120}
+                      onChange={(e) => setLitmusUsageTeam(e.target.value)}
+                    />
+                  </Field>
+                  <label style={toggleRow}>
+                    <input
+                      type="checkbox"
+                      checked={wantsAdoptersList}
+                      onChange={(e) => setWantsAdoptersList(e.target.checked)}
+                    />
+                    <span>We&apos;d like to be part of the LitmusChaos adopters list</span>
+                  </label>
+                </>
               )}
 
               <p style={communityPrompt}>
