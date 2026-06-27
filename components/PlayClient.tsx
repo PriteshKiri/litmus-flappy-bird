@@ -35,13 +35,14 @@ export default function PlayClient() {
     setFormError("");
     if (!name.trim()) return setFormError("Please enter your name.");
     if (linkedin.trim().length < 3) return setFormError("Please enter your LinkedIn profile.");
-    if (!relation) return setFormError("Please select your relationship to LitmusChaos.");
-    if (relation === "end_user" && !company.trim())
-      return setFormError("Please enter your organization name.");
-    if (relation === "end_user" && !litmusUsageTeam.trim())
-      return setFormError("Please enter the team using LitmusChaos.");
-    if (wantsCommunity && !EMAIL_RE.test(email.trim()))
-      return setFormError("Please enter a valid email to join the community calls.");
+    // Temporarily disabled — only Name and LinkedIn are required for now.
+    // if (!relation) return setFormError("Please select your relationship to LitmusChaos.");
+    // if (relation === "end_user" && !company.trim())
+    //   return setFormError("Please enter your organization name.");
+    // if (relation === "end_user" && !litmusUsageTeam.trim())
+    //   return setFormError("Please enter the team using LitmusChaos.");
+    // if (wantsCommunity && !EMAIL_RE.test(email.trim()))
+    //   return setFormError("Please enter a valid email to join the community calls.");
     setRunKey((k) => k + 1);
     setPhase("play");
   };
@@ -130,6 +131,9 @@ export default function PlayClient() {
                 />
               </Field>
 
+              {/* Temporarily hidden — only Name and LinkedIn are collected for now.
+                  We'll bring these fields back later.
+
               <Field label="Relationship to LitmusChaos *">
                 <select value={relation} onChange={(e) => setRelation(e.target.value as LitmusRelation)}>
                   <option value="">Select one…</option>
@@ -193,6 +197,7 @@ export default function PlayClient() {
                   />
                 </Field>
               )}
+              */}
 
               {formError && <p style={errorText}>{formError}</p>}
               <button className="btn btn-primary" onClick={startGame} style={{ marginTop: 4 }}>
