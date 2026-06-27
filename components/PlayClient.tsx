@@ -16,6 +16,7 @@ export default function PlayClient() {
   // Registration fields
   const [name, setName] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [github, setGithub] = useState("");
   const [company, setCompany] = useState("");
   const [litmusUsageTeam, setLitmusUsageTeam] = useState("");
   const [wantsAdoptersList, setWantsAdoptersList] = useState(false);
@@ -130,6 +131,31 @@ export default function PlayClient() {
                   onChange={(e) => setLinkedin(e.target.value)}
                 />
               </Field>
+
+              <Field label="GitHub username" hint="So we can welcome you to the community.">
+                <input
+                  type="text"
+                  placeholder="your-github-handle"
+                  value={github}
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  onChange={(e) => setGithub(e.target.value)}
+                />
+              </Field>
+
+              <a
+                href="https://github.com/litmuschaos/litmus"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={starCallout}
+              >
+                <span style={{ fontSize: "0.95rem", fontWeight: 800 }}>
+                  ⭐ Star LitmusChaos on GitHub
+                </span>
+                <span style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>
+                  github.com/litmuschaos/litmus — show some love!
+                </span>
+              </a>
 
               {/* Temporarily hidden — only Name and LinkedIn are collected for now.
                   We'll bring these fields back later.
@@ -385,6 +411,19 @@ const noteText: React.CSSProperties = {
   fontSize: "0.76rem",
   textAlign: "center",
   maxWidth: 360,
+};
+
+const starCallout: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: 3,
+  padding: "0.8rem 1rem",
+  borderRadius: 12,
+  textDecoration: "none",
+  color: "var(--text)",
+  background: "rgba(255,210,74,0.06)",
+  border: "1px solid rgba(255,210,74,0.28)",
+  marginTop: "0.35rem",
 };
 
 const announceCallout: React.CSSProperties = {

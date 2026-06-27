@@ -17,6 +17,7 @@ export interface ScoreRow {
 export interface PlayerInfo {
   name: string;
   linkedin: string;
+  github: string;
   company: string;
   litmusUsageTeam: string;
   wantsAdoptersList: boolean;

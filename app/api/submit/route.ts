@@ -38,7 +38,9 @@ export async function POST(request: Request) {
   const company = str(body.company);
   const litmusUsageTeam = str(body.litmusUsageTeam);
   const wantsAdoptersList = body.wantsAdoptersList === true;
-  const litmusRelation = str(body.litmusRelation) as LitmusRelation;
+  // Relationship is no longer collected in the form. Default to "new_to_litmus"
+  // when it's missing so submissions still satisfy the DB constraint.
+  const litmusRelation = (str(body.litmusRelation) || "new_to_litmus") as LitmusRelation;
   const wantsCommunity = body.wantsCommunity === true;
   const email = str(body.email).toLowerCase();
   const score = typeof body.score === "number" ? Math.floor(body.score) : NaN;
